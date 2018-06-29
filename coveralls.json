@@ -1,8 +1,8 @@
 {
   "skip_files": [
     "deps/mox",
-    "lib/common/",
     "lib/interfaces",
+    "lib/poison",
     "test/support"
   ]
 }

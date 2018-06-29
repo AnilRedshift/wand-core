@@ -5,7 +5,7 @@ defmodule WandCore.Opts do
   def convert_opts(%{}=opts, mode) do
     Enum.map(opts, fn
       {key, value} when is_atom(value) and mode == :encode -> {key, ":#{value}"}
-      {key, ":" <> value} when mode == :decode -> {key, value}
+      {key, ":" <> value} when mode == :decode -> {key, String.to_atom(value)}
       {key, value} when is_list(value) -> {key, convert_opts(value, mode)}
       {key, value} when is_map(value) -> {key, convert_opts(value, mode)}
       {key, value} -> {key, value}

@@ -1,5 +1,5 @@
 defmodule Wand.TupleEncoder do
-  alias Wand.Poison.Encoder
+  alias WandCore.Poison.Encoder
 
   defimpl Encoder, for: Tuple do
     def encode(data, options) when is_tuple(data) do

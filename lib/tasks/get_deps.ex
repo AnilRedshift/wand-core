@@ -5,7 +5,7 @@ defmodule Mix.Tasks.Wand.GetDeps do
   def run(args) do
     @project.config()
     |> Keyword.get(:deps, [])
-    |> Wand.Poison.encode!()
+    |> WandCore.Poison.encode!()
     |> IO.puts
   end
 end

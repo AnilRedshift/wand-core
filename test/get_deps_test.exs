@@ -42,7 +42,7 @@ defmodule GetDepsTest do
         "poison",
         [
           ["git", "https://github.com/devinus/poison.git"],
-          ["only", ":dev"],
+          ["only", ":dev"]
         ]
       ]
     ]
@@ -55,7 +55,6 @@ defmodule GetDepsTest do
   end
 
   defp validate(expected) do
-    #Mix.Tasks.WandCore.GetDeps.run([])
     result = capture_io(fn -> Mix.Tasks.WandCore.GetDeps.run([]) end) |> WandCore.Poison.decode!()
     assert result == expected
   end

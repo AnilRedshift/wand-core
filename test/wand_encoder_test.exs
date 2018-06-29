@@ -59,7 +59,8 @@ defmodule WandEncoderTest do
       ]
     }
 
-    assert encode(file) == "{\n  \"version\": \"1.0.0\",\n  \"dependencies\": {\n    \"poison\": [{\"git\":\"https://github.com/devinus/poison.git\"}]\n  }\n}"
+    assert encode(file) ==
+             "{\n  \"version\": \"1.0.0\",\n  \"dependencies\": {\n    \"poison\": [{\"git\":\"https://github.com/devinus/poison.git\"}]\n  }\n}"
   end
 
   defp encode(file), do: Poison.encode!(file, pretty: true)

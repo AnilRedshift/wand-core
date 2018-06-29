@@ -23,7 +23,6 @@ defmodule OptsTest do
   end
 
   test "Regression: encodes a keyword list with the last item an atom" do
-
     assert Opts.encode(a: "b", c: :d) == [a: "b", c: ":d"]
   end
 

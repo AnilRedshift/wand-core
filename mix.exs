@@ -1,28 +1,54 @@
-defmodule WandCore.MixProject do
+defmodule Wand.MixProject do
   use Mix.Project
+
+  @version "0.2.0"
+  @description "Global tasks for interacting with wand"
 
   def project do
     [
+      aliases: aliases(),
       app: :wand_core,
-      version: "0.1.0",
+      version: @version,
+      description: @description,
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      package: package(),
     ]
   end
 
-  # Run "mix help compile.app" to learn about applications.
   def application do
     [
       extra_applications: [:logger]
     ]
   end
 
-  # Run "mix help deps" to learn about dependencies.
+  defp aliases do
+    [
+      build: [&build_archive/1],
+    ]
+  end
+  defp build_archive(_) do
+    Mix.Tasks.Compile.run([])
+    Mix.Tasks.Archive.Build.run(["--output=wand.ez"])
+    File.rename("wand.ez", "../wand-archive/wand.ez")
+    File.cp("../wand-archive/wand.ez", "../wand-archive/wand-#{@version}.ez")
+  end
+
   defp deps do
     [
-      # {:dep_from_hexpm, "~> 0.3.0"},
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
+      {:mox, "~> 0.3.2", only: :test},
+      {:ex_doc, ">= 0.0.0", only: :dev},
+    ]
+  end
+
+  defp package do
+    [ name: :wand_core,
+      files: ["lib", "mix.exs"],
+      docs: [extras: ["README.md"]],
+      maintainers: ["Anil Kulkarni"],
+      licenses: ["BSD-3"],
+      links: %{"Github" => "https://github.com/AnilRedshift/wand-core"},
     ]
   end
 end

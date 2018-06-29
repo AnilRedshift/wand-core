@@ -68,6 +68,35 @@ defmodule WandFileTest do
       stub_read(:ok, "wand.json", json)
       assert WandFile.load() == {:error, {:invalid_dependency, "mox"}}
     end
+
+    test "a dependency without a requirement" do
+      json =
+        WandCore.Poison.encode!(%{
+          version: "1.0.0",
+          dependencies: %{
+            poison: [
+              %{
+                git: "https://github.com/devinus/poison.git"
+              }
+            ]
+          }
+        })
+
+      stub_read(:ok, "wand.json", json)
+
+      assert WandFile.load() ==
+               {:ok,
+                %WandCore.WandFile{
+                  dependencies: [
+                    %WandCore.WandFile.Dependency{
+                      name: "poison",
+                      opts: %{git: "https://github.com/devinus/poison.git"},
+                      requirement: nil
+                    }
+                  ],
+                  version: "1.0.0"
+                }}
+    end
   end
 
   describe "add" do
@@ -134,6 +163,23 @@ defmodule WandFileTest do
           }
         }
         |> WandCore.Poison.encode!(pretty: true)
+
+      stub_write(:ok, "wand.json", expected)
+      WandFile.save(file)
+    end
+
+    test "saves a dependency without a requirement" do
+      file = %WandFile{
+        dependencies: [
+          %Dependency{
+            name: "poison",
+            opts: %{git: "https://github.com/devinus/poison.git"}
+          }
+        ]
+      }
+
+      expected =
+        "{\n  \"version\": \"1.0.0\",\n  \"dependencies\": {\n    \"poison\": [{\"git\":\"https://github.com/devinus/poison.git\"}]\n  }\n}"
 
       stub_write(:ok, "wand.json", expected)
       WandFile.save(file)

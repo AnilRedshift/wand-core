@@ -11,17 +11,22 @@ defmodule Mix.Tasks.WandCore.Deps do
 
   defp convert_dependency(%Dependency{name: name, requirement: requirement, opts: opts})
        when opts == %{} do
-    {String.to_atom(name), requirement}
+    {convert_name(name), requirement}
   end
 
-  defp convert_dependency(%Dependency{} = dependency) do
-    name = String.to_atom(dependency.name)
-    requirement = dependency.requirement
+  defp convert_dependency(%Dependency{name: name, requirement: requirement, opts: opts})
+       when requirement == nil do
+    {convert_name(name), convert_opts(opts)}
+  end
 
-    opts =
-      Opts.decode(dependency.opts)
-      |> Enum.into([])
+  defp convert_dependency(%Dependency{name: name, requirement: requirement, opts: opts}) do
+    {convert_name(name), requirement, convert_opts(opts)}
+  end
 
-    {name, requirement, opts}
+  defp convert_name(name), do: String.to_atom(name)
+
+  defp convert_opts(opts) do
+    Opts.decode(opts)
+    |> Enum.into([])
   end
 end

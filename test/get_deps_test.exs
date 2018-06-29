@@ -31,6 +31,24 @@ defmodule GetDepsTest do
     |> validate()
   end
 
+  test "a git dependency without a requirement" do
+    [
+      {:poison, git: "https://github.com/devinus/poison.git", only: :dev}
+    ]
+    |> stub_project()
+
+    [
+      [
+        "poison",
+        [
+          ["git", "https://github.com/devinus/poison.git"],
+          ["only", ":dev"]
+        ]
+      ]
+    ]
+    |> validate()
+  end
+
   defp stub_project(deps) do
     config = [deps: deps]
     expect(WandCore.ProjectMock, :config, fn -> config end)

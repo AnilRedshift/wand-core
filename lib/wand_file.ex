@@ -59,8 +59,14 @@ defmodule WandCore.WandFile do
   defp validate_dependencies(dependencies) do
     {dependencies, errors} =
       Enum.map(dependencies, fn
-        {name, [requirement, opts]} -> create_dependency(name, requirement, opts)
-        {name, requirement} -> create_dependency(name, requirement, %{})
+        {name, [requirement, opts]} ->
+          create_dependency(name, requirement, opts)
+
+        {name, [opts]} ->
+          create_dependency(name, nil, opts)
+
+        {name, requirement} ->
+          create_dependency(name, requirement, %{})
       end)
       |> Enum.split_with(fn
         %Dependency{} -> true
@@ -92,6 +98,12 @@ defmodule WandCore.WandFile do
 
   defp extract_version(%{version: _}), do: {:error, :invalid_version}
   defp extract_version(_data), do: {:error, :missing_version}
+
+  defp create_dependency(name, nil, opts) do
+    name = to_string(name)
+    opts = WandCore.Opts.decode(opts)
+    %Dependency{name: name, opts: opts}
+  end
 
   defp create_dependency(name, requirement, opts) do
     name = to_string(name)

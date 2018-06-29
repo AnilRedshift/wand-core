@@ -26,6 +26,19 @@ defmodule DepsTest do
            ]
   end
 
+  test "Converts a dependency without a requirement" do
+    %WandFile{
+      dependencies: [
+        %Dependency{name: "poison", opts: %{git: "https://github.com/devinus/poison"}}
+      ]
+    }
+    |> stub_read()
+
+    assert Deps.run([]) == [
+             {:poison, git: "https://github.com/devinus/poison"}
+           ]
+  end
+
   test "Converts multiple dependencies" do
     %WandFile{
       dependencies: [

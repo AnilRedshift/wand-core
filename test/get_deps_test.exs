@@ -31,12 +31,31 @@ defmodule GetDepsTest do
     |> validate()
   end
 
+  test "a git dependency without a requirement" do
+    [
+      {:poison, git: "https://github.com/devinus/poison.git", only: :dev}
+    ]
+    |> stub_project()
+
+    [
+      [
+        "poison",
+        [
+          ["git", "https://github.com/devinus/poison.git"],
+          ["only", ":dev"],
+        ]
+      ]
+    ]
+    |> validate()
+  end
+
   defp stub_project(deps) do
     config = [deps: deps]
     expect(WandCore.ProjectMock, :config, fn -> config end)
   end
 
   defp validate(expected) do
+    #Mix.Tasks.WandCore.GetDeps.run([])
     result = capture_io(fn -> Mix.Tasks.WandCore.GetDeps.run([]) end) |> WandCore.Poison.decode!()
     assert result == expected
   end

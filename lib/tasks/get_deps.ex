@@ -16,6 +16,9 @@ defmodule Mix.Tasks.WandCore.GetDeps do
       {name, requirement, opts} ->
         {name, requirement, Opts.encode(opts)}
 
+      {name, opts} when is_list(opts) ->
+        {name, Opts.encode(opts)}
+
       dependency ->
         dependency
     end)

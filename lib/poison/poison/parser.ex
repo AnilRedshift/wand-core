@@ -1,4 +1,4 @@
-defmodule Poison.SyntaxError do
+defmodule Wand.Poison.SyntaxError do
   defexception [:message, :token, :pos]
 
   def exception(opts) do
@@ -8,11 +8,11 @@ defmodule Poison.SyntaxError do
       "Unexpected end of input at position #{opts[:pos]}"
     end
 
-    %Poison.SyntaxError{message: message, token: token}
+    %Wand.Poison.SyntaxError{message: message, token: token}
   end
 end
 
-defmodule Poison.Parser do
+defmodule Wand.Poison.Parser do
   @moduledoc """
   An ECMA 404 conforming JSON parser.
 
@@ -25,7 +25,7 @@ defmodule Poison.Parser do
 
   use Bitwise
 
-  alias Poison.SyntaxError
+  alias Wand.Poison.SyntaxError
 
   @type t :: nil | true | false | list | float | integer | String.t | map
 

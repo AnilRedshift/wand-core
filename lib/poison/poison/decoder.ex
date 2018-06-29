@@ -1,4 +1,4 @@
-defmodule Poison.Decode do
+defmodule Wand.Poison.Decode do
   def decode(value, options) when is_map(value) or is_list(value) do
     case options[:as] do
       nil -> value
@@ -75,17 +75,17 @@ defmodule Poison.Decode do
       Map.put(acc, key, new_value)
     end)
     |> Map.put(:__struct__, as.__struct__)
-    |> Poison.Decoder.decode(options)
+    |> Wand.Poison.Decoder.decode(options)
   end
 end
 
-defprotocol Poison.Decoder do
+defprotocol Wand.Poison.Decoder do
   @fallback_to_any true
 
   def decode(value, options)
 end
 
-defimpl Poison.Decoder, for: Any do
+defimpl Wand.Poison.Decoder, for: Any do
   def decode(value, _options) do
     value
   end

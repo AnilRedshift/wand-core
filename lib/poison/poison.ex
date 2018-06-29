@@ -1,12 +1,12 @@
-defmodule Poison do
-  alias Poison.Encoder
-  alias Poison.Decode
-  alias Poison.Parser
+defmodule Wand.Poison do
+  alias Wand.Poison.Encoder
+  alias Wand.Poison.Decode
+  alias Wand.Poison.Parser
 
   @doc """
   Encode a value to JSON.
 
-      iex> Poison.encode([1, 2, 3])
+      iex> Wand.Poison.encode([1, 2, 3])
       {:ok, "[1,2,3]"}
   """
   @spec encode(Encoder.t, Keyword.t) :: {:ok, iodata} | {:ok, String.t}
@@ -14,14 +14,14 @@ defmodule Poison do
   def encode(value, options \\ []) do
     {:ok, encode!(value, options)}
   rescue
-    exception in [Poison.EncodeError] ->
+    exception in [Wand.Poison.EncodeError] ->
       {:error, {:invalid, exception.value}}
   end
 
   @doc """
   Encode a value to JSON as iodata.
 
-      iex> Poison.encode_to_iodata([1, 2, 3])
+      iex> Wand.Poison.encode_to_iodata([1, 2, 3])
       {:ok, [91, ["1", 44, "2", 44, "3"], 93]}
   """
   @spec encode_to_iodata(Encoder.t, Keyword.t) :: {:ok, iodata}
@@ -33,7 +33,7 @@ defmodule Poison do
   @doc """
   Encode a value to JSON, raises an exception on error.
 
-      iex> Poison.encode!([1, 2, 3])
+      iex> Wand.Poison.encode!([1, 2, 3])
       "[1,2,3]"
   """
   @spec encode!(Encoder.t, Keyword.t) :: iodata | no_return
@@ -49,7 +49,7 @@ defmodule Poison do
   @doc """
   Encode a value to JSON as iodata, raises an exception on error.
 
-      iex> Poison.encode_to_iodata!([1, 2, 3])
+      iex> Wand.Poison.encode_to_iodata!([1, 2, 3])
       [91, ["1", 44, "2", 44, "3"], 93]
   """
   @spec encode_to_iodata!(Encoder.t, Keyword.t) :: iodata | no_return
@@ -60,7 +60,7 @@ defmodule Poison do
   @doc """
   Decode JSON to a value.
 
-      iex> Poison.decode("[1,2,3]")
+      iex> Wand.Poison.decode("[1,2,3]")
       {:ok, [1, 2, 3]}
   """
   @spec decode(iodata, Keyword.t) :: {:ok, Parser.t} | {:error, :invalid}
@@ -75,7 +75,7 @@ defmodule Poison do
   @doc """
   Decode JSON to a value, raises an exception on error.
 
-      iex> Poison.decode!("[1,2,3]")
+      iex> Wand.Poison.decode!("[1,2,3]")
       [1, 2, 3]
   """
   @spec decode!(iodata, Keyword.t) :: Parser.t | no_return

@@ -1,4 +1,5 @@
 defmodule WandCore.Poison.SyntaxError do
+  @moduledoc false
   defexception [:message, :token, :pos]
 
   def exception(opts) do
@@ -18,6 +19,7 @@ defmodule WandCore.Poison.Parser do
 
   See: http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf
   """
+  @moduledoc false
 
   if Application.get_env(:poison, :native) do
     @compile :native

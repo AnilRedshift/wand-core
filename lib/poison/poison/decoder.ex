@@ -1,4 +1,5 @@
 defmodule WandCore.Poison.Decode do
+  @moduledoc false
   def decode(value, options) when is_map(value) or is_list(value) do
     case options[:as] do
       nil -> value
@@ -80,6 +81,7 @@ defmodule WandCore.Poison.Decode do
 end
 
 defprotocol WandCore.Poison.Decoder do
+  @moduledoc false
   @fallback_to_any true
 
   def decode(value, options)

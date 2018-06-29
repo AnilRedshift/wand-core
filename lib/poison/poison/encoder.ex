@@ -1,4 +1,5 @@
 defmodule WandCore.Poison.EncodeError do
+  @moduledoc false
   defexception value: nil, message: nil
 
   def message(%{value: value, message: nil}) do
@@ -11,6 +12,7 @@ defmodule WandCore.Poison.EncodeError do
 end
 
 defmodule WandCore.Poison.Encode do
+  @moduledoc false
   defmacro __using__(_) do
     quote do
       @compile {:inline, encode_name: 1}
@@ -33,6 +35,7 @@ defmodule WandCore.Poison.Encode do
 end
 
 defmodule WandCore.Poison.Pretty do
+  @moduledoc false
   defmacro __using__(_) do
     quote do
       @default_indent 2
@@ -64,6 +67,7 @@ defmodule WandCore.Poison.Pretty do
 end
 
 defprotocol WandCore.Poison.Encoder do
+  @moduledoc false
   @fallback_to_any true
 
   def encode(value, options)

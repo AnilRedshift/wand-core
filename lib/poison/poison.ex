@@ -1,4 +1,5 @@
 defmodule WandCore.Poison do
+  @moduledoc false
   alias WandCore.Poison.Encoder
   alias WandCore.Poison.Decode
   alias WandCore.Poison.Parser

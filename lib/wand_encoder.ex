@@ -45,7 +45,7 @@ defmodule Wand.WandEncoder do
     end
 
     def encode(%Dependency{requirement: requirement, opts: opts}, options) do
-      [requirement, convert_opts(opts)]
+      [requirement, WandCore.Opts.encode(opts)]
       |> Encoder.List.encode(options)
     end
 
@@ -71,23 +71,6 @@ defmodule Wand.WandEncoder do
         ]
       end)
       |> tl
-    end
-
-    defp convert_opts(%{}=opts) do
-      Enum.map(opts, fn
-        {key, value} when is_atom(value) -> {key, ":#{value}"}
-        {key, value} when is_list(value) -> {key, convert_opts(value)}
-        {key, value} when is_map(value) -> {key, convert_opts(value)}
-        {key, value} -> {key, value}
-      end)
-      |> Enum.into(%{})
-    end
-
-    defp convert_opts(opts) when is_list(opts) do
-      Enum.with_index(opts)
-      |> Enum.into(%{}, fn {k,v} -> {v,k} end)
-      |> convert_opts()
-      |> Map.values()
     end
 
     defp indent(options) do

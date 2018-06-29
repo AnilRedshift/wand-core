@@ -25,6 +25,20 @@ defmodule DepsTest do
     ]
   end
 
+  test "Converts multiple dependencies" do
+    %WandFile{
+      dependencies: [
+        %Dependency{name: "poison", requirement: "~> 3.1.2"},
+        %Dependency{name: "mox", requirement: "~> 1.2.3"}
+      ]
+    }
+    |> stub_read()
+    assert Deps.run([]) == [
+      {:mox, "~> 1.2.3"},
+      {:poison, "~> 3.1.2"},
+    ]
+  end
+
   test "converts a dependency with opts" do
     %WandFile{
       dependencies: [
@@ -40,6 +54,32 @@ defmodule DepsTest do
     |> stub_read()
     assert Deps.run([]) == [
       {:poison, "~>3.1.2", only: :test},
+    ]
+  end
+
+  test "converts a dependency with complex opts" do
+    %WandFile{
+      dependencies: [
+        %Dependency{
+          name: "poison",
+          requirement: "~>3.1.2",
+          opts: %{
+            only: [:test, :dev],
+            compile_env: :prod,
+            runtime: false,
+            git: "https://github.com/devinus/poison.git"
+          }
+        }
+      ]
+    }
+    |> stub_read()
+    assert Deps.run([]) == [
+      {:poison, "~>3.1.2", [
+        compile_env: :prod,
+        git: "https://github.com/devinus/poison.git",
+        only: [:test, :dev],
+        runtime: false,
+      ]},
     ]
   end
 

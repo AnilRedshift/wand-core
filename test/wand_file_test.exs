@@ -88,7 +88,7 @@ defmodule WandFileTest do
                 %WandCore.WandFile{
                   dependencies: [
                     %WandCore.WandFile.Dependency{
-                      name: :mox,
+                      name: "mox",
                       opts: [["git"], ["https://github.com/devinus/poison.git"]],
                       requirement: nil
                     }

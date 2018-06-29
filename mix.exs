@@ -3,8 +3,8 @@ defmodule WandCore.MixProject do
 
   @version "0.2.0"
   @description "Global tasks for interacting with wand"
-  @cli_env  [
-    "coveralls": :test,
+  @cli_env [
+    coveralls: :test,
     "coveralls.detail": :test,
     "coveralls.post": :test,
     "coveralls.html": :test
@@ -22,7 +22,7 @@ defmodule WandCore.MixProject do
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: @cli_env,
       deps: deps(),
-      package: package(),
+      package: package()
     ]
   end
 
@@ -34,9 +34,10 @@ defmodule WandCore.MixProject do
 
   defp aliases do
     [
-      build: [&build_archive/1],
+      build: [&build_archive/1]
     ]
   end
+
   defp build_archive(_) do
     Mix.Tasks.Compile.run([])
     Mix.Tasks.Archive.Build.run(["--output=wand.ez"])
@@ -49,7 +50,7 @@ defmodule WandCore.MixProject do
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:excoveralls, "~> 0.9.1", only: :test},
       {:junit_formatter, "~> 2.2", only: :test},
-      {:mox, "~> 0.3.2", only: :test},
+      {:mox, "~> 0.3.2", only: :test}
     ]
   end
 
@@ -57,12 +58,13 @@ defmodule WandCore.MixProject do
   defp elixirc_paths(_), do: ["lib"]
 
   defp package do
-    [ name: :wand_core,
+    [
+      name: :wand_core,
       files: ["lib", "mix.exs"],
       docs: [extras: ["README.md"]],
       maintainers: ["Anil Kulkarni"],
       licenses: ["BSD-3"],
-      links: %{"Github" => "https://github.com/AnilRedshift/wand-core"},
+      links: %{"Github" => "https://github.com/AnilRedshift/wand-core"}
     ]
   end
 end

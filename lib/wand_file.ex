@@ -95,6 +95,7 @@ defmodule WandCore.WandFile do
 
   defp create_dependency(name, requirement, opts) do
     name = to_string(name)
+    opts = WandCore.Opts.decode(opts)
 
     case Version.parse_requirement(requirement) do
       :error -> {:error, {:invalid_dependency, name}}

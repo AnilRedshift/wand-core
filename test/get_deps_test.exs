@@ -7,7 +7,12 @@ defmodule GetDepsTest do
 
   test "prints config" do
     stub_project()
-    expected = [["mox","~> 0.3.2",[["only","test"]]],["ex_doc",">= 0.0.0",[["only","dev"]]]]
+
+    expected = [
+      ["mox", "~> 0.3.2", [["only", "test"]]],
+      ["ex_doc", ">= 0.0.0", [["only", "dev"]]]
+    ]
+
     result = capture_io(fn -> Mix.Tasks.WandCore.GetDeps.run([]) end) |> WandCore.Poison.decode!()
     assert result == expected
   end
@@ -19,6 +24,7 @@ defmodule GetDepsTest do
         {:ex_doc, ">= 0.0.0", [only: :dev]}
       ]
     ]
-    expect(WandCore.ProjectMock, :config, fn() -> config end)
+
+    expect(WandCore.ProjectMock, :config, fn -> config end)
   end
 end

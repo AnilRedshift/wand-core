@@ -3,9 +3,11 @@ defmodule WandCore.PoisonTest do
 
   test "encode/decode round trip" do
     data = %{"hello" => "world"}
-    assert data == data
-    |> WandCore.Poison.encode!()
-    |> WandCore.Poison.decode!()
+
+    assert data ==
+             data
+             |> WandCore.Poison.encode!()
+             |> WandCore.Poison.decode!()
   end
 
   test "encodes tuples" do

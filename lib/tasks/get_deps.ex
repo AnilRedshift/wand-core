@@ -6,6 +6,6 @@ defmodule Mix.Tasks.WandCore.GetDeps do
     @project.config()
     |> Keyword.get(:deps, [])
     |> WandCore.Poison.encode!()
-    |> IO.puts
+    |> IO.puts()
   end
 end

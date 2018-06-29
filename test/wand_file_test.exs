@@ -161,7 +161,7 @@ defmodule WandFileTest do
       file = %WandFile{dependencies: [mox()]}
 
       expected =
-        "{\n  \"version\": \"1.0.0\",\n  \"dependencies\": {\n    \"mox\": [\n      \"~> 0.3.2\",\n      {\n        \"only\": \"test\"\n      }\n    ]\n  }\n}"
+        "{\n  \"version\": \"1.0.0\",\n  \"dependencies\": {\n    \"mox\": [\"~> 0.3.2\",{\"only\":\":test\"}]\n  }\n}"
 
       stub_write(:ok, "wand.json", expected)
       WandFile.save(file)
@@ -169,7 +169,7 @@ defmodule WandFileTest do
   end
 
   defp stub_read_valid(path \\ "wand.json") do
-    contents = valid_deps() |> WandCore.Poison.encode!(pretty: true)
+    contents = valid_deps_config() |> WandCore.Poison.encode!(pretty: true)
     stub_read(:ok, path, contents)
   end
 
@@ -191,16 +191,6 @@ defmodule WandFileTest do
     expect(WandCore.FileMock, :write, fn ^path, ^contents -> {:error, :enoent} end)
   end
 
-  defp valid_deps() do
-    %{
-      version: "1.0.1",
-      dependencies: %{
-        mox: ["~> 0.3.2", %{only: "test"}],
-        poison: "~> 3.1"
-      }
-    }
-  end
-
   defp valid_deps_config() do
     %WandFile{
       version: "1.0.1",
@@ -219,7 +209,7 @@ defmodule WandFileTest do
     %WandFile.Dependency{
       name: "mox",
       requirement: "~> 0.3.2",
-      opts: %{only: "test"}
+      opts: %{only: :test}
     }
   end
 end

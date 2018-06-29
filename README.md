@@ -1,5 +1,5 @@
 # WandCore
-
+[![Coverage Status](https://coveralls.io/repos/github/AnilRedshift/wand-core/badge.svg?branch=master)](https://coveralls.io/github/AnilRedshift/wand-core?branch=master)[![CircleCI](https://circleci.com/gh/AnilRedshift/wand-core.svg?style=svg)](https://circleci.com/gh/AnilRedshift/wand-core)
 **TODO: Add description**
 
 ## Installation
@@ -18,4 +18,3 @@ end
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/wand_core](https://hexdocs.pm/wand_core).
-

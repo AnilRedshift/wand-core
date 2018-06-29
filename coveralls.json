@@ -1,0 +1,8 @@
+{
+  "skip_files": [
+    "deps/mox",
+    "lib/interfaces",
+    "lib/poison/",
+    "test/support"
+  ]
+}

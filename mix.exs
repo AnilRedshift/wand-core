@@ -3,6 +3,12 @@ defmodule WandCore.MixProject do
 
   @version "0.2.0"
   @description "Global tasks for interacting with wand"
+  @cli_env  [
+    "coveralls": :test,
+    "coveralls.detail": :test,
+    "coveralls.post": :test,
+    "coveralls.html": :test
+  ]
 
   def project do
     [
@@ -13,6 +19,8 @@ defmodule WandCore.MixProject do
       elixir: "~> 1.6",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: @cli_env,
       deps: deps(),
       package: package(),
     ]
@@ -38,8 +46,10 @@ defmodule WandCore.MixProject do
 
   defp deps do
     [
-      {:mox, "~> 0.3.2", only: :test},
       {:ex_doc, ">= 0.0.0", only: :dev},
+      {:excoveralls, "~> 0.9.1", only: :test},
+      {:junit_formatter, "~> 2.2", only: :test},
+      {:mox, "~> 0.3.2", only: :test},
     ]
   end
 

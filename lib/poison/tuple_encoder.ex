@@ -1,4 +1,4 @@
-defmodule Wand.TupleEncoder do
+defmodule WandCore.TupleEncoder do
   alias WandCore.Poison.Encoder
 
   defimpl Encoder, for: Tuple do

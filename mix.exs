@@ -1,4 +1,4 @@
-defmodule Wand.MixProject do
+defmodule WandCore.MixProject do
   use Mix.Project
 
   @version "0.2.0"

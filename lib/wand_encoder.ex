@@ -46,6 +46,7 @@ defmodule Wand.WandEncoder do
 
     def encode(%Dependency{requirement: requirement, opts: opts}, options) do
       options = Keyword.drop(options, [:pretty])
+
       [requirement, WandCore.Opts.encode(opts)]
       |> Encoder.List.encode(options)
     end

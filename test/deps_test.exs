@@ -20,9 +20,10 @@ defmodule DepsTest do
       ]
     }
     |> stub_read()
+
     assert Deps.run([]) == [
-      {:poison, "~>3.1.2"},
-    ]
+             {:poison, "~>3.1.2"}
+           ]
   end
 
   test "Converts multiple dependencies" do
@@ -33,10 +34,11 @@ defmodule DepsTest do
       ]
     }
     |> stub_read()
+
     assert Deps.run([]) == [
-      {:mox, "~> 1.2.3"},
-      {:poison, "~> 3.1.2"},
-    ]
+             {:mox, "~> 1.2.3"},
+             {:poison, "~> 3.1.2"}
+           ]
   end
 
   test "converts a dependency with opts" do
@@ -52,9 +54,10 @@ defmodule DepsTest do
       ]
     }
     |> stub_read()
+
     assert Deps.run([]) == [
-      {:poison, "~>3.1.2", only: :test},
-    ]
+             {:poison, "~>3.1.2", only: :test}
+           ]
   end
 
   test "converts a dependency with complex opts" do
@@ -73,18 +76,20 @@ defmodule DepsTest do
       ]
     }
     |> stub_read()
+
     assert Deps.run([]) == [
-      {:poison, "~>3.1.2", [
-        compile_env: :prod,
-        git: "https://github.com/devinus/poison.git",
-        only: [:test, :dev],
-        runtime: false,
-      ]},
-    ]
+             {:poison, "~>3.1.2",
+              [
+                compile_env: :prod,
+                git: "https://github.com/devinus/poison.git",
+                only: [:test, :dev],
+                runtime: false
+              ]}
+           ]
   end
 
   defp stub_read(file) do
     contents = WandCore.Poison.encode!(file)
-      expect(WandCore.FileMock, :read, fn "wand.json" -> {:ok, contents} end)
+    expect(WandCore.FileMock, :read, fn "wand.json" -> {:ok, contents} end)
   end
 end

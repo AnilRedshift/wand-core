@@ -7,4 +7,8 @@ defmodule Wand.PoisonTest do
     |> Wand.Poison.encode!()
     |> Wand.Poison.decode!()
   end
+
+  test "encodes tuples" do
+    assert Wand.Poison.encode!({:hello, :world}) == "[\"hello\",\"world\"]"
+  end
 end

@@ -1,7 +1,10 @@
-defmodule Mix.Tasks.Wand.Init do
+defmodule Mix.Tasks.Wand.GetDeps do
   use Mix.Task
 
   def run(args) do
-    IO.puts("Hello world!")
+    Mix.Project.config()
+    |> Keyword.get(:deps, [])
+    |> Wand.Poison.encode!()
+    |> IO.puts
   end
 end

@@ -52,5 +52,15 @@ defmodule WandEncoderTest do
              "{\n  \"version\": \"1.0.0\",\n  \"dependencies\": {\n    \"poison\": [\">= 0.0.0\",{\"only\":[\":test\",\":dev\"]}]\n  }\n}"
   end
 
+  test "Encode a dependency without a requirement" do
+    file = %WandFile{
+      dependencies: [
+        %Dependency{name: "poison", opts: %{git: "https://github.com/devinus/poison.git"}}
+      ]
+    }
+
+    assert encode(file) == "{\n  \"version\": \"1.0.0\",\n  \"dependencies\": {\n    \"poison\": [{\"git\":\"https://github.com/devinus/poison.git\"}]\n  }\n}"
+  end
+
   defp encode(file), do: Poison.encode!(file, pretty: true)
 end

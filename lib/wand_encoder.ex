@@ -44,6 +44,12 @@ defmodule Wand.WandEncoder do
       Encoder.BitString.encode(requirement, options)
     end
 
+    def encode(%Dependency{requirement: nil, opts: opts}, options) do
+      options = Keyword.drop(options, [:pretty])
+      [WandCore.Opts.encode(opts)]
+      |> Encoder.List.encode(options)
+    end
+
     def encode(%Dependency{requirement: requirement, opts: opts}, options) do
       options = Keyword.drop(options, [:pretty])
 

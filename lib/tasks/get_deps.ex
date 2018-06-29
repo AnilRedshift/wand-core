@@ -1,8 +1,8 @@
-defmodule Mix.Tasks.Wand.GetDeps do
+defmodule Mix.Tasks.WandCore.GetDeps do
   use Mix.Task
-  @project Wand.Interfaces.Project.impl()
+  @project WandCore.Interfaces.Project.impl()
 
-  def run(args) do
+  def run(_args) do
     @project.config()
     |> Keyword.get(:deps, [])
     |> WandCore.Poison.encode!()

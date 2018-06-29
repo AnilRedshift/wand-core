@@ -15,7 +15,9 @@ defmodule Mix.Tasks.WandCore.GetDeps do
     Enum.map(dependencies, fn
       {name, requirement, opts} ->
         {name, requirement, Opts.encode(opts)}
-      dependency -> dependency
+
+      dependency ->
+        dependency
     end)
   end
 end

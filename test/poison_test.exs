@@ -1,4 +1,4 @@
-defmodule Wand.PoisonTest do
+defmodule WandCore.PoisonTest do
   use ExUnit.Case, async: true
 
   test "encode/decode round trip" do

@@ -11,6 +11,7 @@ defmodule Wand.MixProject do
       version: @version,
       description: @description,
       elixir: "~> 1.6",
+      elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       package: package(),
@@ -41,6 +42,9 @@ defmodule Wand.MixProject do
       {:ex_doc, ">= 0.0.0", only: :dev},
     ]
   end
+
+  defp elixirc_paths(:test), do: ["test/support", "lib"]
+  defp elixirc_paths(_), do: ["lib"]
 
   defp package do
     [ name: :wand_core,

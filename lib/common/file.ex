@@ -4,6 +4,6 @@ defmodule WandCore.Interfaces.File do
   @callback exists?(path :: Path.t()) :: boolean()
 
   def impl() do
-    Application.get_env(:wand, :file, File)
+    Application.get_env(:wand_core, :file, File)
   end
 end

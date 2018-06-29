@@ -161,7 +161,7 @@ defmodule WandFileTest do
       file = %WandFile{dependencies: [mox()]}
 
       expected =
-        "{\n  \"version\": \"1.0.0\",\n  \"dependencies\": {\n    \"mox\": [\n      \"~> 0.3.2\",\n      {\n        \"only\": \":test\"\n      }\n    ]\n  }\n}"
+        "{\n  \"version\": \"1.0.0\",\n  \"dependencies\": {\n    \"mox\": [\"~> 0.3.2\",{\"only\":\":test\"}]\n  }\n}"
 
       stub_write(:ok, "wand.json", expected)
       WandFile.save(file)

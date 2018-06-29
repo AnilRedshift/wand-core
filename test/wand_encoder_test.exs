@@ -23,7 +23,7 @@ defmodule WandEncoderTest do
         %Dependency{name: "poison", requirement: ">= 0.0.0", opts: %{only: :test}}
       ]
     }
-    assert encode(file) == "{\n  \"version\": \"1.0.0\",\n  \"dependencies\": {\n    \"poison\": [\n      \">= 0.0.0\",\n      {\n        \"only\": \":test\"\n      }\n    ]\n  }\n}"
+    assert encode(file) ==  "{\n  \"version\": \"1.0.0\",\n  \"dependencies\": {\n    \"poison\": [\">= 0.0.0\",{\"only\":\":test\"}]\n  }\n}"
   end
 
   test "Encode a dependency with a boolean as an opt value" do
@@ -32,7 +32,7 @@ defmodule WandEncoderTest do
         %Dependency{name: "poison", requirement: ">= 0.0.0", opts: %{optional: true}}
       ]
     }
-    assert encode(file) == "{\n  \"version\": \"1.0.0\",\n  \"dependencies\": {\n    \"poison\": [\n      \">= 0.0.0\",\n      {\n        \"optional\": \":true\"\n      }\n    ]\n  }\n}"
+    assert encode(file) == "{\n  \"version\": \"1.0.0\",\n  \"dependencies\": {\n    \"poison\": [\">= 0.0.0\",{\"optional\":\":true\"}]\n  }\n}"
   end
 
   test "Encode a dependency with a list of atoms as a opt value" do
@@ -41,7 +41,7 @@ defmodule WandEncoderTest do
         %Dependency{name: "poison", requirement: ">= 0.0.0", opts: %{only: [:test, :dev]}}
       ]
     }
-    assert encode(file) == "{\n  \"version\": \"1.0.0\",\n  \"dependencies\": {\n    \"poison\": [\n      \">= 0.0.0\",\n      {\n        \"only\": [\n          \":test\",\n          \":dev\"\n        ]\n      }\n    ]\n  }\n}"
+    assert encode(file) == "{\n  \"version\": \"1.0.0\",\n  \"dependencies\": {\n    \"poison\": [\">= 0.0.0\",{\"only\":[\":test\",\":dev\"]}]\n  }\n}"
   end
 
   defp encode(file), do: Poison.encode!(file, pretty: true)

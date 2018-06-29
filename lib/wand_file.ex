@@ -61,8 +61,12 @@ defmodule WandCore.WandFile do
       Enum.map(dependencies, fn
         {name, [requirement, opts]} when is_map(opts) ->
           create_dependency(name, requirement, opts)
-        {name, opts} when is_list(opts) -> create_dependency(name, nil, opts)
-        {name, requirement} -> create_dependency(name, requirement, %{})
+
+        {name, opts} when is_list(opts) ->
+          create_dependency(name, nil, opts)
+
+        {name, requirement} ->
+          create_dependency(name, requirement, %{})
       end)
       |> Enum.split_with(fn
         %Dependency{} -> true

@@ -1,7 +1,7 @@
 defmodule WandCore.MixProject do
   use Mix.Project
 
-  @version "0.2.0"
+  @version "0.2.1"
   @description "Global tasks for interacting with wand"
   @cli_env [
     coveralls: :test,
@@ -22,7 +22,13 @@ defmodule WandCore.MixProject do
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: @cli_env,
       deps: deps(),
-      package: package()
+      package: package(),
+      source_url: "https://github.com/AnilRedshift/wand-core",
+      docs: [
+        source_ref: "v#{@version}",
+        main: "readme",
+        extras: ["README.md"],
+      ],
     ]
   end
 
@@ -59,7 +65,6 @@ defmodule WandCore.MixProject do
     [
       name: :wand_core,
       files: ["lib", "mix.exs"],
-      docs: [extras: ["README.md"]],
       maintainers: ["Anil Kulkarni"],
       licenses: ["BSD-3"],
       links: %{"Github" => "https://github.com/AnilRedshift/wand-core"}

@@ -4,6 +4,28 @@ defmodule Mix.Tasks.WandCore.Deps do
   alias WandCore.WandFile
   alias WandCore.WandFile.Dependency
 
+  @moduledoc """
+  Task to load a wand.json file, and return Application deps format.
+  This is used inside a mix.exs to allow wand to work for your project.
+
+  Your mix.exs file should look something like this:
+  <pre>
+  def project do
+    [
+      app: :my_project,
+      deps: Mix.Tasks.WandCore.Deps.run([])
+      ...
+    ]
+  end
+  </pre>
+  """
+
+  @type name :: atom()
+  @type version :: String.t()
+  @type opts :: keyword()
+
+  @type dependency :: {name, version} | {name, opts} | {name, version, opts}
+  @spec run([]) :: [dependency]
   def run(_args) do
     {:ok, file} = WandFile.load()
     Enum.map(file.dependencies, &convert_dependency/1)

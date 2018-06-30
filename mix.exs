@@ -41,8 +41,6 @@ defmodule WandCore.MixProject do
   defp build_archive(_) do
     Mix.Tasks.Compile.run([])
     Mix.Tasks.Archive.Build.run(["--output=wand.ez"])
-    File.rename("wand.ez", "../wand-archive/wand.ez")
-    File.cp("../wand-archive/wand.ez", "../wand-archive/wand-#{@version}.ez")
   end
 
   defp deps do

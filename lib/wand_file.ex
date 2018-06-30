@@ -30,7 +30,10 @@ defmodule WandCore.WandFile do
   Lastly, a dependency can be a list of `[requirement, opts]`. For example: `"poison": ["~> 3.1.0", {"only": ":test"}`
   """
 
-  @type t :: %__MODULE__{version: String.t(), dependencies: %{optional(atom()) => WandCore.WandFile.Dependency.t()}}
+  @type t :: %__MODULE__{
+          version: String.t(),
+          dependencies: %{optional(atom()) => WandCore.WandFile.Dependency.t()}
+        }
   @type success :: {:ok, t}
   @type error :: {:error, any()}
   @type success_or_error :: success | error
@@ -41,12 +44,23 @@ defmodule WandCore.WandFile do
   defmodule Dependency do
     @type name :: String.t()
     @type requirement :: String.t() | nil
+    @type source :: :hex | :git | :path
     @type t :: %__MODULE__{name: String.t(), requirement: requirement, opts: WandCore.Opts.t()}
     @enforce_keys [:name]
     @moduledoc """
     A dependency describes the information for a specific mix dependency, including its name, requirement string, and any options See `WandCore.WandFile` for more information.
     """
     defstruct name: nil, requirement: nil, opts: %{}
+
+    @spec source(t) :: source
+    def source(%Dependency{opts: opts}) do
+      cond do
+        Map.get(opts, :git) -> :git
+        Map.get(opts, :path) -> :path
+        Map.get(opts, :in_umbrella) -> :path
+        true -> :hex
+      end
+    end
   end
 
   @doc """

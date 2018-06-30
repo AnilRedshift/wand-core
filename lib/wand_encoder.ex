@@ -3,6 +3,16 @@ defmodule Wand.WandEncoder do
   alias WandCore.WandFile.Dependency
   alias WandCore.Poison.Encoder
 
+  @moduledoc """
+  A [Poison](https://github.com/devinus/poison#encoder) encoder for `WandCore.WandFile`
+
+  It differs from the normal JSON encoding of a struct in the following ways:
+
+  1. The dependencies map is sorted by key name
+  2. Options are inlined and not pretty-printed, even though the rest of the object is
+  3. Atoms in a `WandCore.WandFile.Dependency` are encoded as `:atom_name`
+  """
+
   defimpl WandCore.Poison.Encoder, for: WandFile do
     @default_indent 2
     @default_offset 0
@@ -17,15 +27,15 @@ defmodule Wand.WandEncoder do
         {"dependencies", dependencies}
       ]
       |> Enum.map(fn {key, value} ->
-        {encode(key, options), encode(value, options)}
+        {parse(key, options), parse(value, options)}
       end)
       |> create_map_body(offset)
       |> wrap_map(offset, indent)
     end
 
-    def encode([], _options), do: "{}"
+    defp parse([], _options), do: "{}"
 
-    def encode(dependencies, options) when is_list(dependencies) do
+    defp parse(dependencies, options) when is_list(dependencies) do
       indent = indent(options)
       offset = offset(options) + indent
       options = offset(options, offset)
@@ -33,32 +43,32 @@ defmodule Wand.WandEncoder do
       dependencies =
         Enum.sort_by(dependencies, & &1.name)
         |> Enum.map(fn dependency ->
-          {encode(dependency.name, options), encode(dependency, options)}
+          {parse(dependency.name, options), parse(dependency, options)}
         end)
 
       create_map_body(dependencies, offset)
       |> wrap_map(offset, indent)
     end
 
-    def encode(%Dependency{requirement: requirement, opts: opts}, options) when opts == %{} do
+    defp parse(%Dependency{requirement: requirement, opts: opts}, options) when opts == %{} do
       Encoder.BitString.encode(requirement, options)
     end
 
-    def encode(%Dependency{requirement: nil, opts: opts}, options) do
+    defp parse(%Dependency{requirement: nil, opts: opts}, options) do
       options = Keyword.drop(options, [:pretty])
 
       [WandCore.Opts.encode(opts)]
       |> Encoder.List.encode(options)
     end
 
-    def encode(%Dependency{requirement: requirement, opts: opts}, options) do
+    defp parse(%Dependency{requirement: requirement, opts: opts}, options) do
       options = Keyword.drop(options, [:pretty])
 
       [requirement, WandCore.Opts.encode(opts)]
       |> Encoder.List.encode(options)
     end
 
-    def encode(key, options) when is_binary(key) do
+    defp parse(key, options) when is_binary(key) do
       to_string(key)
       |> Encoder.BitString.encode(options)
     end

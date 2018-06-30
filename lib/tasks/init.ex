@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.WandCore.GetDeps do
+defmodule Mix.Tasks.WandCore.Init do
   use Mix.Task
   alias WandCore.Opts
   @project WandCore.Interfaces.Project.impl()

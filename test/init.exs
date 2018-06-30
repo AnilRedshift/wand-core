@@ -1,4 +1,4 @@
-defmodule GetDepsTest do
+defmodule InitTest do
   use ExUnit.Case, async: true
   import Mox
   import ExUnit.CaptureIO
@@ -55,7 +55,7 @@ defmodule GetDepsTest do
   end
 
   defp validate(expected) do
-    result = capture_io(fn -> Mix.Tasks.WandCore.GetDeps.run([]) end) |> WandCore.Poison.decode!()
+    result = capture_io(fn -> Mix.Tasks.WandCore.Init.run([]) end) |> WandCore.Poison.decode!()
     assert result == expected
   end
 end

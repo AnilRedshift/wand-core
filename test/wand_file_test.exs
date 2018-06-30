@@ -214,6 +214,42 @@ defmodule WandFileTest do
     end
   end
 
+  describe "Dependency" do
+    test "source of a hex package" do
+      dependency = %Dependency{name: "poison", requirement: "1.0.0"}
+      assert Dependency.source(dependency) == :hex
+    end
+
+    test "source with git options" do
+      dependency = %Dependency{
+        name: "poison",
+        opts: %{git: "https://github.com/devinus/poison.git"}
+      }
+
+      assert Dependency.source(dependency) == :git
+    end
+
+    test "source with git options and a requirement" do
+      dependency = %Dependency{
+        name: "poison",
+        requirement: "1.0.0",
+        opts: %{git: "https://github.com/devinus/poison.git"}
+      }
+
+      assert Dependency.source(dependency) == :git
+    end
+
+    test "source a local path" do
+      dependency = %Dependency{name: "poison", opts: %{path: "../poison"}}
+      assert Dependency.source(dependency) == :path
+    end
+
+    test "An umbrella dependency" do
+      dependency = %Dependency{name: "poison", opts: %{in_umbrella: true}}
+      assert Dependency.source(dependency) == :path
+    end
+  end
+
   defp stub_read_valid(path \\ "wand.json") do
     contents = valid_deps_config() |> WandCore.Poison.encode!(pretty: true)
     stub_read(:ok, path, contents)

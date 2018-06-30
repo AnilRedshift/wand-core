@@ -52,6 +52,9 @@ defmodule WandCore.WandFile do
     """
     defstruct name: nil, requirement: nil, opts: %{}
 
+    @doc """
+    Determine if the dependency is referring to a hex repository, a git repository, or a local path
+    """
     @spec source(t) :: source
     def source(%Dependency{opts: opts}) do
       cond do

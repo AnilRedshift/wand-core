@@ -1,5 +1,21 @@
 defmodule WandCore.Opts do
+  @type t :: map() | list()
+  @moduledoc """
+  Helper module for manipulating opts of a `WandCore.WandFile.Dependency`
+
+  This is used in conjunction with the JSON encoder to ensure that atoms are properly encoded/decoded
+  """
+
+  @doc """
+  Encodes a map or list of options by changing atom values into `":atom_name"`
+  """
+  @spec encode(t) :: t
   def encode(opts), do: convert_opts(opts, :encode)
+
+  @doc """
+  Decodes a map or list of options by changing string values from `":name"` to `"name"`
+  """
+  @spec decode(t) :: t
   def decode(opts), do: convert_opts(opts, :decode)
 
   defp convert_opts(%{} = opts, mode) do

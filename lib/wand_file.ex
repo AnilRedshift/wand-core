@@ -4,14 +4,55 @@ defmodule WandCore.WandFile do
   @requirement "~> 1.0"
   @vsn "1.0.0"
 
+  @moduledoc """
+  Module describing the internal state of a wand file, along with helper functions to manipulate the dependencies and serialize the module to disk.
+
+  ## Wand.json
+  The format for wand.json looks like this:
+  <pre>
+  {
+    "version": #{@vsn},
+    "dependencies": {
+      "dependency_name': dependency,
+    }
+  }
+  </pre>
+
+  A dependency can have the following serialized formats in wand.json:
+
+  ### Simple dependency
+  The value can be a string of the version requirement: `"poison": "~> 3.1.0"`.
+
+  ### Dependency with just opts
+  If, say, pulling from git, the value can be just a map of options: `"poison": {"git": "https://github.com/devinus/poison.git"}`
+
+  ### Dependency with a version and opts
+  Lastly, a dependency can be a list of `[requirement, opts]`. For example: `"poison": ["~> 3.1.0", {"only": ":test"}`
+  """
+
+  @type t :: %__MODULE__{version: String.t(), dependencies: %{optional(atom()) => WandCore.WandFile.Dependency.t()}}
+  @type success :: {:ok, t}
+  @type error :: {:error, any()}
+  @type success_or_error :: success | error
+
   defstruct version: @vsn,
             dependencies: []
 
   defmodule Dependency do
+    @type name :: String.t()
+    @type requirement :: String.t() | nil
+    @type t :: %__MODULE__{name: String.t(), requirement: requirement, opts: WandCore.Opts.t()}
     @enforce_keys [:name]
+    @moduledoc """
+    A dependency describes the information for a specific mix dependency, including its name, requirement string, and any options See `WandCore.WandFile` for more information.
+    """
     defstruct name: nil, requirement: nil, opts: %{}
   end
 
+  @doc """
+  Add a new Dependency to a WandFile, unless the name already exists in the file
+  """
+  @spec add(t, Dependency.t()) :: success_or_error
   def add(%WandFile{} = file, %Dependency{} = dependency) do
     case exists?(file, dependency.name) do
       false ->
@@ -23,6 +64,10 @@ defmodule WandCore.WandFile do
     end
   end
 
+  @doc """
+  Load a wand.json file from disk, and parse it into a WandFile
+  """
+  @spec load(Path.t()) :: success_or_error
   def load(path \\ "wand.json") do
     with {:ok, contents} <- read(path),
          {:ok, data} <- parse(contents),
@@ -33,12 +78,20 @@ defmodule WandCore.WandFile do
     end
   end
 
+  @doc """
+  Remove a dependency to a WandFile by name. Returns the file (always succeeds)
+  """
+  @spec remove(t, Dependency.name()) :: t
   def remove(%WandFile{} = file, name) do
     update_in(file.dependencies, fn dependencies ->
       Enum.reject(dependencies, &(&1.name == name))
     end)
   end
 
+  @doc """
+  Save the WandFile as a JSON file to the path indicated.
+  """
+  @spec save(t, Path.t()) :: :ok | error
   def save(%WandFile{} = file, path \\ "wand.json") do
     contents = WandCore.Poison.encode!(file, pretty: true)
     @f.write(path, contents)

@@ -11,6 +11,9 @@ WandCore is a set of global mix tasks needed for wand to work. Most importantly,
 In a terminal, type:
 `mix archive.install hex wand_core --force`
 
+If you have wand already installed, you can add the arcive with:
+`wand core install`
+
 This archive doesn't do much by itself! You'll probably want to install the [wand cli](http://github.com/anilredshift/wand) if you haven't already.
 
 ## Usage
@@ -33,7 +36,7 @@ You need to have the wand_core archive added to your image before running mix de
 The WandCore repository is fairly straightforward. It uses [mox](https://hexdocs.pm/mox/Mox.html) for side effects. Due to the nature of the tasks, the "unit tests" can feel more like integration tests, but where possible, the heavy lifting is done in stateless modules.
 
 ## Contributing
-Issues and Pull requests are very much welcome! If you are submitting a pull request, please make sure to add unit tests for both the successful and failing codepaths, and run `mix format` before submitting.
+Issues and pull requests are very much welcome! If you are submitting a pull request, please make sure to add unit tests for both the successful and failing codepaths, and run `mix format` before submitting.
 
 ## Notes
 WandCore is a global archive, and is thus subject to the restriction that it can't have any dependencies. Due to the nature, the goal is to keep WandCore small, with minimal logic. Most of the heavy lifting is done in `wand` proper.

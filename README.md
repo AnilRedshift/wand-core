@@ -28,8 +28,8 @@ You need to have the wand_core archive added to your image before running mix de
 
 
 ## Local development
-1. `git clone git@github.com:AnilRedshift/wand.git`
-2. `cd wand`
+1. `git clone git@github.com:AnilRedshift/wand_core.git`
+2. `cd wand_core`
 3. `mix deps.get`
 4. `mix test`
 

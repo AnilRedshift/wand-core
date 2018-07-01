@@ -14,11 +14,6 @@ defmodule WandCore.Poison.SyntaxError do
 end
 
 defmodule WandCore.Poison.Parser do
-  @moduledoc """
-  An ECMA 404 conforming JSON parser.
-
-  See: http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf
-  """
   @moduledoc false
 
   if Application.get_env(:poison, :native) do

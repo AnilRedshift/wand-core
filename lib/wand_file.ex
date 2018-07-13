@@ -1,6 +1,6 @@
 defmodule WandCore.WandFile do
   alias WandCore.WandFile
-  @f WandCore.Interfaces.File.impl()
+  alias WandCore.Interfaces.File
   @requirement "~> 1.0"
   @vsn "1.0.0"
 
@@ -111,7 +111,7 @@ defmodule WandCore.WandFile do
   @spec save(t, Path.t()) :: :ok | error
   def save(%WandFile{} = file, path \\ "wand.json") do
     contents = WandCore.Poison.encode!(file, pretty: true)
-    @f.write(path, contents)
+    File.impl().write(path, contents)
   end
 
   defp validate(data) do
@@ -197,7 +197,7 @@ defmodule WandCore.WandFile do
   end
 
   defp read(path) do
-    case @f.read(path) do
+    case File.impl().read(path) do
       {:ok, contents} -> {:ok, contents}
       {:error, reason} -> {:error, {:file_read_error, reason}}
     end
